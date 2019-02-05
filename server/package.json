@@ -1,0 +1,35 @@
+{
+  "name": "youper-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node src/server.js",
+    "build": "babel src —-out-dir dist",
+    "serve": "node dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thiagobrez/youper-challenge.git"
+  },
+  "author": "Thiago Brezinski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thiagobrez/youper-challenge/issues"
+  },
+  "homepage": "https://github.com/thiagobrez/youper-challenge#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.9"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "nodemon": "^1.18.9"
+  }
+}
