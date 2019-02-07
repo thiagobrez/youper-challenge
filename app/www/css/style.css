@@ -1,4 +1,34 @@
-.header-badge {
-  top: -7px !important;
-  left: -15px !important;
+.container {
+  background-color: gray;
+}
+
+.notification-card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  height: 125px;
+  border-radius: 15px;
+  background-color: snow;
+}
+
+.notification-timestamp,
+.notification-title,
+.notification-body {
+  padding: 10px;
+  align-self: start;
+}
+
+.notification-timestamp {
+  flex-grow: 2;
+}
+
+.notification-title {
+  flex-grow: 1;
+}
+
+.notification-body {
+  flex-grow: 1;
 }

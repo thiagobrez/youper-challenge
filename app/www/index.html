@@ -69,13 +69,12 @@
 
   <script id="notifications.html" type="text/ng-template">
     <ion-view view-title="Notifications">
-      <ion-content class="padding">
-        <h3>Notifications</h3>
+      <ion-content class="padding container">
         
-        <div ng-if="messages">
-          <span ng-repeat="message in messages">
-            {{message.title}}
-          </span>
+        <div class="notification-card" ng-repeat="message in messages">
+          <span class="notification-timestamp">5 minutes ago</span>
+          <span class="notification-title">{{message.title}}</span>
+          <span class="notification-body">{{message.body}}</span>
         </div>
         
       </ion-content>

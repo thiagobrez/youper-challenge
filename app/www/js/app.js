@@ -53,7 +53,7 @@ angular.module('starter', ['ionic', 'ui.router'])
   
   .controller('NotificationsController', function ($scope, $stateParams, $ionicHistory, $http) {
     $http.get('http://localhost:8000/api/messages')
-      .then(function (response) {
+      .then(function (res) {
         $scope.messages = res.data.messages;
       });
     
