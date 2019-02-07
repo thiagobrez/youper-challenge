@@ -2,6 +2,7 @@ import Express from 'express';
 import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import fixtures from '../fixtures';
 import messages from './api/routes/messages.routes';
 import serverConfig from '../config';
@@ -22,6 +23,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 });
 
 app.use(compression());
+app.use(cors());
 app.use(bodyParser.json({limit: '20mb'}));
 app.use(bodyParser.urlencoded({limit: '20mb', extended: false}));
 app.use('/api', messages);

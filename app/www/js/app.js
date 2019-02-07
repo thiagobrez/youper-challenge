@@ -44,12 +44,19 @@ angular.module('starter', ['ionic', 'ui.router'])
   })
   
   .controller('HomeController', function ($scope, $state) {
+    $scope.state = $state;
+    
     $scope.changePage = function (page) {
       $state.go(page);
     }
   })
   
-  .controller('NotificationsController', function ($scope, $stateParams, $ionicHistory) {
+  .controller('NotificationsController', function ($scope, $stateParams, $ionicHistory, $http) {
+    $http.get('http://localhost:8000/api/messages')
+      .then(function (response) {
+        $scope.messages = res.data.messages;
+      });
+    
     $scope.goBack = function () {
       $ionicHistory.goBack();
     }
