@@ -4,6 +4,7 @@
 
 .notification-card {
   display: flex;
+  position: relative;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
@@ -12,6 +13,17 @@
   height: 125px;
   border-radius: 15px;
   background-color: snow;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  height: 20px;
+  width: 20px;
+  border: 2px solid gray;
+  border-radius: 50%;
+  background-color: #ffc900;
 }
 
 .notification-timestamp,
@@ -23,12 +35,19 @@
 
 .notification-timestamp {
   flex-grow: 2;
+  font-size: smaller;
+  color: gray;
 }
 
 .notification-title {
   flex-grow: 1;
+  font-size: large;
+  color: dimgray;
+  font-weight: bold;
 }
 
 .notification-body {
   flex-grow: 1;
+  font-size: small;
+  color: dimgray;
 }
