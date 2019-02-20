@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ui.router'])
+angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
   
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -26,7 +26,6 @@ angular.module('starter', ['ionic', 'ui.router'])
   })
   
   .config(function ($stateProvider, $urlRouterProvider) {
-    
     $stateProvider
       .state('home', {
         url: '/',
@@ -40,24 +39,75 @@ angular.module('starter', ['ionic', 'ui.router'])
       });
     
     $urlRouterProvider.otherwise("/");
-    
   })
   
-  .controller('HomeController', function ($scope, $state) {
+  .controller('AppController', function ($scope, $state, $location, $ionicNavBarDelegate) {
+    firebase.initializeApp({
+      apiKey: "AIzaSyBbki1h7LgwhrFe1Ukn9GP2C16AKr9nE7c",
+      authDomain: "youper-challenge-8e39c.firebaseapp.com",
+      databaseURL: "https://youper-challenge-8e39c.firebaseio.com",
+      projectId: "youper-challenge-8e39c",
+      storageBucket: "youper-challenge-8e39c.appspot.com",
+      messagingSenderId: "644755206912"
+    });
+  
+    firebase.auth().signInAnonymously()
+      .catch(err => alert('Error authenticating with firebase'));
+  
+    if ($location.path().indexOf('submit') !== -1) {
+      $ionicNavBarDelegate.showBackButton(false);
+    } else {
+      $ionicNavBarDelegate.showBackButton(true);
+    }
+  })
+  
+  .controller('HomeController', function ($scope, $state, $cordovaImagePicker, $cordovaFile) {
     $scope.state = $state;
     
-    $scope.changePage = function (page) {
-      $state.go(page);
+    $scope.changePage = page => $state.go(page);
+    
+    const saveToFirebase = (imageBlob, filename) => {
+      const storageRef = firebase.storage().ref();
+      const uploadTask = storageRef.child('images/' + filename).put(imageBlob, {contentType: 'image/jpeg'});
+      
+      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        snapshot => {},
+        error => alert(error.message),
+        () => uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          $scope.avatarPath = downloadURL;
+          $scope.$apply();
+        }));
+    };
+    
+    $scope.chooseAvatar = () => {
+      const options = {
+        maximumImagesCount: 1,
+        width: 80,
+        height: 80,
+        quality: 80
+      };
+      
+      $cordovaImagePicker.getPictures(options)
+        .then(
+          results => {
+            const fileName = results[0].replace(/^.*[\\\/]/, '');
+            
+            $cordovaFile.readAsArrayBuffer(cordova.file.tempDirectory, fileName)
+              .then(success => {
+                const imageBlob = new Blob([success], {type: 'image/jpeg'});
+                saveToFirebase(imageBlob, fileName);
+              }, error => {
+                alert('Error reading image');
+              });
+          },
+          error => alert('Error picking image')
+        );
     }
   })
   
   .controller('NotificationsController', function ($scope, $stateParams, $ionicHistory, $http) {
     $http.get('http://localhost:8000/api/messages')
-      .then(function (res) {
-        $scope.messages = res.data.messages;
-      });
+      .then(res => $scope.messages = res.data.messages);
     
-    $scope.goBack = function () {
-      $ionicHistory.goBack();
-    }
-  })
+    $scope.goBack = () => $ionicHistory.goBack();
+  });

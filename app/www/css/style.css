@@ -1,5 +1,18 @@
 .container {
-  background-color: gray;
+  background-color: #444;
+}
+
+.bar-header {
+  background-image: none !important;
+  border-width: 0 !important;
+  border-bottom: none transparent !important;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border: 1px solid snow;
+  border-radius: 50%;
 }
 
 .notification-card {

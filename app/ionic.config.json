@@ -1,6 +1,8 @@
 {
   "name": "youper-challenge",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic1",
   "watchPatterns": [
     "scss/**/*",
