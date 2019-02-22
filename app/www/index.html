@@ -39,7 +39,10 @@
   </ion-nav-buttons>
   
   <ion-nav-buttons side="secondary">
-    <button class="button button-icon icon ion-ios-bell"
+    <span class="notification-icon-badge"
+          ng-if="state.is('home')">
+    </span>
+    <button class="button button-icon icon ion-ios-bell notification-icon"
             ng-click="changePage('notifications')"
             ng-if="state.is('home')">
     </button>

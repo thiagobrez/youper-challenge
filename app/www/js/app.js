@@ -53,7 +53,7 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
   
     firebase.auth().signInAnonymously()
       .catch(err => alert('Error authenticating with firebase'));
-  
+    
     if ($location.path().indexOf('submit') !== -1) {
       $ionicNavBarDelegate.showBackButton(false);
     } else {
@@ -73,10 +73,8 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         snapshot => {},
         error => alert(error.message),
-        () => uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          $scope.avatarPath = downloadURL;
-          $scope.$apply();
-        }));
+        () => uploadTask.snapshot.ref.getDownloadURL()
+          .then(downloadURL => $scope.$apply($scope.avatarPath = downloadURL)));
     };
     
     $scope.chooseAvatar = () => {
@@ -89,16 +87,24 @@ angular.module('starter', ['ionic', 'ui.router', 'ngCordova'])
       
       $cordovaImagePicker.getPictures(options)
         .then(
-          results => {
-            const fileName = results[0].replace(/^.*[\\\/]/, '');
-            
-            $cordovaFile.readAsArrayBuffer(cordova.file.tempDirectory, fileName)
-              .then(success => {
-                const imageBlob = new Blob([success], {type: 'image/jpeg'});
-                saveToFirebase(imageBlob, fileName);
-              }, error => {
-                alert('Error reading image');
-              });
+          success => {
+            const filename = success[0].replace(/^.*[\\\/]/, '');
+      
+            $cordovaFile.readAsArrayBuffer(cordova.file.tempDirectory, filename)
+              .then(
+                success => {
+                  const imageBlob = new Blob([success], {type: 'image/jpeg'});
+                  
+                  saveToFirebase(imageBlob, filename);
+                  
+                  $cordovaFile.copyFile(cordova.file.tempDirectory, filename, cordova.file.dataDirectory, filename)
+                    .then(
+                      success => {},
+                      error => alert('Error copying image')
+                    );
+                },
+                error => alert('Error reading image')
+              );
           },
           error => alert('Error picking image')
         );
