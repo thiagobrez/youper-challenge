@@ -15,12 +15,20 @@
   <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.8.3/firebase.js"></script>
   <script src="js/app.js"></script>
+  
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
   <link href="css/ionic.app.css" rel="stylesheet">
   -->
 </head>
 <body ng-app="starter"
       ng-controller="AppController">
+
+<div ng-controller="NotificationsController">
+  <div class="notification-overlay"></div>
+  <div class="notification-modal">
+    {{selectedMessage.title}}
+  </div>
+</div>
 
 <ion-nav-bar class="bar-dark" ng-controller="HomeController">
   <ion-nav-back-button></ion-nav-back-button>
@@ -62,9 +70,10 @@
   <ion-view view-title="Notifications">
     <ion-content class="has-header padding container">
       
-      <div class="notification-card" ng-repeat="message in messages">
-        <span class="notification-badge"></span>
-        <span class="notification-timestamp">5 minutes ago</span>
+      <div class="notification-card" ng-repeat="message in messages"
+           ng-click="openMessage(message)">
+        <span class="notification-badge" ng-if="message.new"></span>
+        <span class="notification-timestamp">{{message.timestamp}} minutes ago</span>
         <span class="notification-title">{{message.title}}</span>
         <span class="notification-body">{{message.body}}</span>
       </div>

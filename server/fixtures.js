@@ -7,11 +7,13 @@ const messages = [
   },
   {
     title: 'Hello!',
-    body: 'Sample text'
+    body: 'Sample text',
+    timestamp: 3
   },
   {
     title: 'Welcome!',
-    body: 'Sample text'
+    body: 'Sample text',
+    timestamp: 5
   },
 ];
 
@@ -19,11 +21,15 @@ const messages = [
 async function populateData() {
   const promises = [];
   
-  for (const message of messages) {
+  for (const {title, body, timestamp} of messages) {
+    
+    console.log(title, body, timestamp);
+    
     promises.push(
       Message.create({
-        title: message.title,
-        body: message.body
+        title,
+        body,
+        timestamp
       })
     );
   }
@@ -34,12 +40,8 @@ async function populateData() {
 
 export default async function () {
   try {
-    const count = await Message.count().exec();
-    if (count > 0) {
-      return;
-    }
-    
-    await populateData();
+    await Message.collection.remove();
+    populateData();
   } catch (err) {
     console.log(err);
   }

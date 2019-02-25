@@ -8,6 +8,14 @@ const messageSchema = new Schema({
   body: {
     type: Schema.Types.String,
     required: true
+  },
+  timestamp: {
+    type: Schema.Types.Number,
+    default: 1
+  },
+  new: {
+    type: Schema.Types.Boolean,
+    default: true
   }
 });
 

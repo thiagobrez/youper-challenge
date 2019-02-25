@@ -1,0 +1,7 @@
+<div class="notification-card" ng-repeat="message in messages"
+     ng-click="openMessage(message)">
+  <span class="notification-badge" ng-if="message.new"></span>
+  <span class="notification-timestamp">{{message.timestamp}} minutes ago</span>
+  <span class="notification-title">{{message.title}}</span>
+  <span class="notification-body">{{message.body}}</span>
+</div>

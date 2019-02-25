@@ -1,3 +1,30 @@
+.notification-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.notification-modal {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background-color: snow;
+  width: 300px;
+  height: 500px;
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  text-align: center;
+  z-index: 11;
+}
+
 .container {
   background-color: #444;
 }
@@ -17,7 +44,7 @@
 
 .notification-icon-badge {
   position: absolute;
-  z-index: 999;
+  z-index: 9;
   top: -5px;
   right: 5px;
   height: 20px;
